@@ -119,6 +119,13 @@ button { font: inherit; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
 /* AVALIAÇÕES */
+.g-score { display: inline-flex; align-items: center; gap: .55rem; margin-top: 1.3rem; padding: .55rem 1rem; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); text-decoration: none; color: var(--text); }
+.g-score:hover { border-color: var(--pink); }
+.g-score svg { width: 1.3rem; height: 1.3rem; }
+.g-score strong { font-size: 1.25rem; font-weight: 700; }
+.g-stars { color: #fbbc04; letter-spacing: .08em; }
+.g-count { font-size: .85rem; color: var(--muted); white-space: nowrap; }
+@media (max-width: 400px) { .g-score { gap: .4rem; padding: .5rem .8rem; } .g-stars { letter-spacing: 0; } .g-count { font-size: .8rem; } }
 .rev-head { max-width: 56rem; margin: 1.5rem auto 0; display: flex; justify-content: flex-end; gap: .6rem; }
 .rev-head button { background: none; border: 0; color: #fff; font-size: 1.3rem; line-height: 1; cursor: pointer; padding: .2rem .3rem; }
 .rev-track { max-width: 56rem; margin: .5rem auto 0; display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; align-items: flex-start; scrollbar-color: #9a9a9a #2a2a2a; }
@@ -288,6 +295,7 @@ src="https://www.facebook.com/tr?id=1753413565766483&ev=PageView&noscript=1"
   <section class="sec wrap" id="avaliacoes">
     <h2 class="script">O que as pessoas estão falando</h2>
     <p class="sub">feedback das minhas clientes</p>
+    <a class="g-score" href="https://maps.app.goo.gl/ETvVHWtdVKpPwg7s6" target="_blank" rel="noopener noreferrer" aria-label="Nota 5,0 de 5 no Google, com 58 avaliações"><svg aria-hidden="true"><use href="#i-g"/></svg><strong>5,0</strong><span class="g-stars" aria-hidden="true">★★★★★</span><span class="g-count">58 avaliações no Google</span></a>
     <div class="rev-head">
       <button type="button" id="rev-prev" aria-label="Avaliações anteriores">←</button>
       <button type="button" id="rev-next" aria-label="Próximas avaliações">→</button>
