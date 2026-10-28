@@ -460,20 +460,36 @@ const small = (src) => /^assets\/(portfolio|estilo)-[\w-]+\.webp$/.test(src) ? s
   }
   const espera = (ms) => new Promise((r) => setTimeout(r, ms));
   /* Envia ao Make sem travar: qualquer erro é ignorado e o WhatsApp abre do mesmo jeito */
+  /* Envia ao Make tentando 3 caminhos, do mais completo ao mais simples.
+     Nunca trava: se tudo falhar, o WhatsApp abre do mesmo jeito. */
+  let metodoEnvio = "";
   function enviarWebhook(payload) {
     try {
       const chave = JSON.stringify(Object.assign({}, payload, { data_envio: "", pagina: "" }));
       if (!site.webhook || chave === ultimoEnvio) return Promise.resolve();
       ultimoEnvio = chave;
       const corpo = new URLSearchParams(payload).toString();
-      const beacon = () => { try { navigator.sendBeacon && navigator.sendBeacon(site.webhook, new Blob([corpo], { type: "application/x-www-form-urlencoded" })); } catch (e) {} };
+      /* 3º caminho: GET com os campos no endereço (o Make aceita) */
+      const viaImagem = () => new Promise((ok) => {
+        const img = new Image(); let feito = false;
+        const fim = () => { if (!feito) { feito = true; ok("imagem"); } };
+        img.onload = fim; img.onerror = fim; setTimeout(fim, 2500);
+        img.src = site.webhook + (site.webhook.includes("?") ? "&" : "?") + corpo;
+      });
+      /* 2º caminho: sendBeacon */
+      const viaBeacon = () => {
+        let ok = false;
+        try { ok = !!(navigator.sendBeacon && navigator.sendBeacon(site.webhook, new Blob([corpo], { type: "application/x-www-form-urlencoded" }))); } catch (e) {}
+        return ok ? Promise.resolve("beacon") : viaImagem();
+      };
+      /* 1º caminho: fetch */
       let envio;
       try {
         envio = fetch(site.webhook, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: corpo })
-          .then(() => modoTeste && console.log("[orcamento] Make recebeu"))
-          .catch(beacon);
-      } catch (e) { beacon(); return espera(400); }
-      return Promise.race([envio, espera(4000)]);
+          .then(() => "fetch", () => viaImagem());
+      } catch (e) { envio = viaBeacon(); }
+      envio = envio.then((m) => { metodoEnvio = m; if (modoTeste) console.log("[orcamento] enviado ao Make via " + m); return m; });
+      return Promise.race([envio, espera(4500)]);
     } catch (e) { return Promise.resolve(); }
   }
 
@@ -503,7 +519,7 @@ const small = (src) => /^assets\/(portfolio|estilo)-[\w-]+\.webp$/.test(src) ? s
     bot(`Perfeito, ${primeiro()}! 💕 Já organizei tudo. Vou te levar para o meu WhatsApp; se não abrir sozinho, toque no botão abaixo.`, () => {
       area.innerHTML = `<a class="chat-wa" id="chat-wa" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-wa"/></svg>Continuar no WhatsApp</a><button type="button" class="chat-restart" id="chat-restart">Recomeçar</button>`;
       $("chat-restart").onclick = reiniciar;
-      if (modoTeste) { envio.then(() => bolha("Modo de teste: envio ao Make concluído. O site não redireciona sozinho neste modo.")); return; }
+      if (modoTeste) { envio.then(() => bolha(metodoEnvio ? "Modo de teste: enviado ao Make (via " + metodoEnvio + "). O site não redireciona sozinho neste modo." : "Modo de teste: o navegador não confirmou o envio ao Make.")); return; }
       /* no site publicado, segue sozinho para o WhatsApp depois do envio */
       if (!dentroDeQuadro) envio.then(() => { window.location.href = url; });
     });
