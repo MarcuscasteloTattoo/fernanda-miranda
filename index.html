@@ -150,6 +150,57 @@ button { font: inherit; }
 .foot-icons svg { width: 22px; height: 22px; }
 .foot small { display: block; margin-top: .9rem; font-size: .7rem; opacity: .75; }
 
+/* CELULAR: margens menores, textos e toques maiores */
+@media (max-width: 719px) {
+  body { font-size: 17px; }
+  .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .top { height: 76px; }
+  .logo img { height: 54px; }
+  .hero-copy { bottom: 10%; padding: 0 16px; }
+  .hero-copy p { font-size: 1.3rem; line-height: 1.4; }
+  .btn-pink { font-size: 1.05rem; padding: .85rem 1.4rem; }
+  .sec { padding-top: 3.5rem; }
+  .script { font-size: 2.6rem; line-height: 1.2; }
+  .sub { font-size: 1.05rem; line-height: 1.5; }
+  .gal { margin-top: 1.8rem; max-width: none; }
+  .gal-arrow { width: 44px; height: 44px; }
+  .gal-dots { gap: 8px; }
+  .about { margin-top: 2rem; gap: 1.6rem; }
+  .oval { width: 210px; height: 286px; }
+  .about-txt p { font-size: 1.06rem; line-height: 1.65; }
+  .about-ig { font-size: 1rem; }
+  .chat { max-width: none; margin-top: 1.6rem; padding: 12px; }
+  .chat-log { max-height: 420px; gap: 10px; }
+  .msg img { width: 36px; height: 36px; }
+  .msg p { font-size: 1.02rem; padding: 9px 12px; }
+  .chat-row input, .chat-row textarea { font-size: 16px; padding: .85rem .9rem; }
+  .chat-send { width: 50px; }
+  .chips { gap: 8px; }
+  .chips button { font-size: .98rem; padding: .6rem 1rem; }
+  .chat-err { font-size: .9rem; }
+  .chat-wa { font-size: 1.05rem; padding: 1rem; }
+  .chat-restart { font-size: .95rem; padding: .4rem; }
+  .rev-head { margin-top: 1rem; }
+  .rev-head button { font-size: 1.6rem; padding: .3rem .6rem; }
+  .rev-track { gap: 12px; }
+  .rev { width: 84vw; padding: 1.1rem; }
+  .rev-av { width: 2.5rem; height: 2.5rem; font-size: .85rem; }
+  .rev-top h3 { font-size: 1.02rem; }
+  .rev-stars { font-size: 1rem; }
+  .rev p { font-size: 1rem; line-height: 1.6; -webkit-line-clamp: 7; line-clamp: 7; }
+  .rev .more { font-size: .95rem; padding: .3rem 0; }
+  .rev-link { font-size: .98rem; }
+  .care { font-size: 1.04rem; line-height: 1.6; text-align: left; margin-top: 1.6rem; }
+  .care h3 { font-size: 1.06rem; margin-top: 1.4rem; }
+  .care ul { padding-left: 1.1rem; }
+  .care li { margin-top: .7rem; text-indent: -1.1rem; }
+  .care li::before { display: inline-block; width: 1.1rem; margin-right: 0; text-indent: 0; }
+  .foot { font-size: 1rem; }
+  .foot-icons { gap: 1.4rem; margin-top: 1rem; }
+  .foot-icons svg { width: 28px; height: 28px; }
+  .foot small { font-size: .8rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html, .gal-track { scroll-behavior: auto; }
   .hero-slide { transition: none; }
