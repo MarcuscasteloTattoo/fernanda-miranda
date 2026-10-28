@@ -515,13 +515,10 @@ const small = (src) => /^assets\/(portfolio|estilo)-[\w-]+\.webp$/.test(src) ? s
     const envio = $("website").value ? Promise.resolve() : enviarWebhook(payload);
     /* Meta Pixel: orçamento concluído */
     try { if (window.fbq && !$("website").value) fbq("track", "Lead", { content_name: "Orçamento", content_category: dados.estilo }); } catch (e) {}
-    const dentroDeQuadro = (() => { try { return window.top !== window; } catch (e) { return true; } })();
-    bot(`Perfeito, ${primeiro()}! 💕 Já organizei tudo. Vou te levar para o meu WhatsApp; se não abrir sozinho, toque no botão abaixo.`, () => {
+    bot(`Perfeito, ${primeiro()}! 💕 Já organizei tudo. Toque no botão verde abaixo para continuar a conversa comigo no WhatsApp.`, () => {
       area.innerHTML = `<a class="chat-wa" id="chat-wa" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-wa"/></svg>Continuar no WhatsApp</a><button type="button" class="chat-restart" id="chat-restart">Recomeçar</button>`;
       $("chat-restart").onclick = reiniciar;
-      if (modoTeste) { envio.then(() => bolha(metodoEnvio ? "Modo de teste: enviado ao Make (via " + metodoEnvio + "). O site não redireciona sozinho neste modo." : "Modo de teste: o navegador não confirmou o envio ao Make.")); return; }
-      /* no site publicado, segue sozinho para o WhatsApp depois do envio */
-      if (!dentroDeQuadro) envio.then(() => { window.location.href = url; });
+      if (modoTeste) { envio.then(() => bolha(metodoEnvio ? "Modo de teste: enviado ao Make (via " + metodoEnvio + ")." : "Modo de teste: o navegador não confirmou o envio ao Make.")); return; }
     });
   }
 
